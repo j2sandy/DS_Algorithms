@@ -56,10 +56,8 @@ public class MinHeap {
 			heapifyDown(0);
 			return curr_min;
 		
-		
-		
 	}
-	private void heapifyDown(int i) {
+	public void heapifyDown(int i) {
 		
 		int leftChild=getLeftChild(i);
 		int rightChild=getRightChild(i);
@@ -78,7 +76,7 @@ public class MinHeap {
 		
 	}
 
-	private void heapifyUp(int i) {
+	public void heapifyUp(int i) {
 		if(A.get(getParent(i)) > A.get(i))
 		{
 			swap(i,getParent(i));
@@ -87,7 +85,7 @@ public class MinHeap {
 		
 	}
 	
-	private int getCurrMin()
+	public int getCurrMin()
 	{
 		if(A.size()!=0)
 			return A.get(0);
