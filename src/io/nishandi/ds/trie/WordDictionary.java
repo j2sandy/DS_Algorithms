@@ -188,10 +188,7 @@ class TrieUsingMap{
 		return null;
 	}
     
-    public String dfsTrie(TrieNode root, String str ) {
-    	if(root==null)
-    		return null;
-    }
+    
     
     
 }

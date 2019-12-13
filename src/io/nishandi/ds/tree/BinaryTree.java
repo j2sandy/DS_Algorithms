@@ -1,9 +1,12 @@
 package io.nishandi.ds.tree;
 
+
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
+import java.util.TreeMap;
 
 import io.nishandi.ds.tree.BinaryTree.Node;
 
@@ -20,9 +23,12 @@ public class BinaryTree {
 		}
 	}
 	
+	
+	static int max_sum=0;
 	static int tilt=0;
 	static int max_level=0;
 	static Node root;
+	static int max_dist_hor,min_dist_hor=0;
 	static ArrayList<Integer> arr1;
 	static ArrayList<Integer> arr2;
 	static ArrayList<Integer> arr3;
@@ -36,6 +42,7 @@ public class BinaryTree {
         //root.left.right.right=new Node(100);
         root.right.left=new Node(60);
         root.right.right=new Node(70);
+        root.left.left.left=new Node(80);
         
         //btree.recursiveInorder(root);
        // btree.iterativePreorder(root);
@@ -49,12 +56,20 @@ public class BinaryTree {
         arr1=new ArrayList<Integer>();
         arr2=new ArrayList<Integer>();
         arr3=new ArrayList<Integer>();
+        TreeMap<Integer,Node> hm=new TreeMap<Integer,Node>();
 		
         //btree.lcaBinaryTree(50, 60);
         //btree.twoNodeDistance(60, 70);
         //btree.getWidthIterative(root);
-        btree.getTiltTree(root);
-        System.out.println(tilt);
+        //btree.getTiltTree(root);
+        //System.out.println(tilt);
+        btree.getMaxDistanceHorizontal(root,0);
+        btree.getMinDistanceHorizontal(root, 0);
+        System.out.println("Min horizontal dist:"+min_dist_hor+"Max horizontal dist:"+max_dist_hor);
+        //btree.printVerticalOrderTraversalUtil(root,hm);
+        //btree.printTopView(hm);
+        btree.printTopViewWithoutUsingExtraSpaceUtil(root);
+        System.out.println("Maximum sum from root to leaf path==>"+btree.getMaxRootToLeafPathSum(root));
 	}
 	
 	public void iterativeInorder(Node root)
@@ -437,4 +452,106 @@ public class BinaryTree {
 		return l_sum+r_sum+root.val;
 		
 	}
+	
+	public void getMinDistanceHorizontal(Node root,int level) {
+		
+		if(root==null)
+		   return;
+		
+		if(level<min_dist_hor) {
+			min_dist_hor=level;
+		}
+		
+		getMinDistanceHorizontal(root.left,level-1);
+		getMinDistanceHorizontal(root.right, level+1);
+		
+		
+	}
+	
+	public void getMaxDistanceHorizontal(Node root,int level) {
+		if(root==null)
+			   return;
+			
+		if(level>max_dist_hor) {
+			max_dist_hor=level;
+			}
+			
+			getMaxDistanceHorizontal(root.left,level-1);
+			getMaxDistanceHorizontal(root.right, level+1);
+		
+	}
+	
+	public void printVerticalOrderTraversalUtil(Node root,TreeMap<Integer,Node> hm) {
+		for(int i=min_dist_hor;i<=max_dist_hor;i++)
+			printVerticalOrderTraversal(root, i,0,hm);
+	}
+	
+	public void printVerticalOrderTraversal(Node root,int distance,int root_dist,TreeMap<Integer,Node> hm) {
+		
+		if(root==null)
+			return;
+		
+		if(root_dist==distance)
+			{
+			  System.out.println(root.val);
+			  if(!hm.containsKey(distance))
+				 hm.put(distance, root); 
+			}
+		
+		printVerticalOrderTraversal(root.left,distance,root_dist-1,hm);
+		printVerticalOrderTraversal(root.right,distance,root_dist+1,hm);
+		
+	}
+	
+	public void printTopView(TreeMap<Integer, Node> hm) {
+		System.out.println("printin top view");
+		for(Map.Entry<Integer,Node> e:hm.entrySet()) {
+			System.out.println(e.getValue().val);
+		}
+	}
+	
+	public void printTopViewWithoutUsingExtraSpaceUtil(Node root) {
+		for(int i=min_dist_hor;i<=max_dist_hor;i++) {
+			printTopViewWithoutUsingExtraSpace(root,i,0,false);
+		}
+	}
+	
+	public void printTopViewWithoutUsingExtraSpace(Node root,int max_level,int current_level,boolean visited) {
+		
+		if(root==null)
+			return;
+		
+		if(current_level==max_level) {
+			if(visited)
+				return;
+			else
+				{
+				  System.out.println(root.val);
+				  visited=true;
+				}
+		}
+		
+		printTopViewWithoutUsingExtraSpace(root.left,max_level,current_level-1,visited);
+		printTopViewWithoutUsingExtraSpace(root.right,max_level,current_level+1,visited);
+		
+		
+	}
+	
+	public int getMaxRootToLeafPathSum(Node root) {
+		
+		if(root==null)
+			return 0;
+		
+		int left=getMaxRootToLeafPathSum(root.left);
+		int right=getMaxRootToLeafPathSum(root.right);
+		
+		 
+		return Math.max(left, right)+root.val;
+	}
+	
+	public int getMaximumSumPath(Node root) {
+		
+	}
+	
+	
 }

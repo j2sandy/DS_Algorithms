@@ -17,6 +17,7 @@ public class LinkedListJava {
 		head1.next.next=new Node(90);
 		head1.next.next.next=new Node(110);
 		head1.next.next.next.next=new Node(120);
+		head1.next.next.next.next.next=new Node(150);
 		//head1.next.next.next.next.next=head1.next;
 		//System.out.println(checkLoop(head1));
 		
@@ -79,26 +80,25 @@ public class LinkedListJava {
 		
 	}
 	
-	public static Node reverseListRecursive(Node head) {
-		if(head==null || head.next==null) 
-			return head;
-		Node temp=reverseListRecursive(head.next);
-		head.next.next=head;
-		head.next=null;
+	public static Node reverseListRecursive(Node node) {
+		if(node==null || node.next==null) 
+			return node;
+		Node temp=reverseListRecursive(node.next);
+		node.next.next=node;
+		node.next=null;
 		return temp;
 		
 	}
 	
-	public static void reverseListRecursivly(Node head) {
-		if(head.next==null) {
-			head1=head;
+	public static void reverseListRecursivly(Node node) {
+		if(node.next==null) {
+			head1=node;
 			return;
 		}
 		
-		reverseListRecursivly(head.next);
-		Node temp=head.next;
-		temp.next=head;
-		head.next=null;
+		reverseListRecursivly(node.next);
+		node.next.next=node;
+		node.next=null;
 		
 	}
 	
