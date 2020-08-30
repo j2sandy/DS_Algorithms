@@ -40,8 +40,8 @@ public class StackImpl {
 			return arr.get(arr.size()-1);
 	}
 	
-	public void isEmpty() {
-		
+	public boolean isEmpty() {
+		return arr.size()==0?true:false;
 	}
 	
 	public int getSize() {
@@ -50,7 +50,8 @@ public class StackImpl {
 	
 	public static void main(String[] args) {
 		StackImpl stack=new StackImpl(10);
-		
 	}
+	
+	
 
 }

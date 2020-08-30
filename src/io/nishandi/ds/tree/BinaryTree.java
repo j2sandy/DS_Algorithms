@@ -1,6 +1,7 @@
 package io.nishandi.ds.tree;
 
 
+import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
@@ -40,9 +41,11 @@ public class BinaryTree {
 		root.left.left=new Node(40);
         root.left.right=new Node(50);
         //root.left.right.right=new Node(100);
-        root.right.left=new Node(60);
-        root.right.right=new Node(70);
-        root.left.left.left=new Node(80);
+		
+		/*
+		 * root.right.left=new Node(60); root.right.right=new Node(70);
+		 * root.left.left.left=new Node(80);
+		 */
         
         //btree.recursiveInorder(root);
        // btree.iterativePreorder(root);
@@ -70,6 +73,7 @@ public class BinaryTree {
         //btree.printTopView(hm);
         btree.printTopViewWithoutUsingExtraSpaceUtil(root);
         System.out.println("Maximum sum from root to leaf path==>"+btree.getMaxRootToLeafPathSum(root));
+        System.out.println("Maximum sum path::"+btree.getMaximumSumPath(root));
 	}
 	
 	public void iterativeInorder(Node root)
@@ -550,8 +554,17 @@ public class BinaryTree {
 	}
 	
 	public int getMaximumSumPath(Node root) {
+		if(root==null)
+			return 0;
+		
+		int left_subtree_sum=getMaxRootToLeafPathSum(root.left);
+		int right_subtree_sum=getMaxRootToLeafPathSum(root.right);
+		
+		int max_with_root=left_subtree_sum+right_subtree_sum+root.val;
+		int max_without_root=Math.max(getMaximumSumPath(root.left), getMaximumSumPath(root.right));
+		
+		return Math.max(max_with_root,max_without_root);
 		
 	}
-	
 	
 }
